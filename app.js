@@ -6,6 +6,7 @@ const mainRouter = require('./routes/main')
 const ErrorHandlerMiddleware = require('./middleware/error-handaler')
 const NotFoundMiddleware = require('./middleware/not-found')
 
+app.use(express.static('./public'))
 app.use(express.json())
 app.use('/api/v1' , mainRouter)
 
