@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
-const CustomAPIError = require("../errors/custom-error");
+const { UnauthenticatedError } = require("../errors");
 
 const authenticationMiddleware = async (req, res, next) => {
   console.log(req.headers.authorization);
   const authHeader = req.headers.authorization;
   // console.log(authHeader);
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new CustomAPIError("Not token provided", 401);
+    throw new UnauthenticatedError("Not token provided");
   }
 
   const token = authHeader.split(" ")[1];
@@ -17,7 +17,7 @@ const authenticationMiddleware = async (req, res, next) => {
     req.user = { id, username };
     next();
   } catch (error) {
-    throw new CustomAPIError("Not authorized to assess this route", 401);
+    throw new UnauthenticatedError("Not authorized to assess this route");
   }
 };
 
